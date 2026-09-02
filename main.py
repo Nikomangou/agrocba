@@ -54,6 +54,14 @@ def registrar_producto():
     inventario.append(nuevo_producto)
     print("Producto registrado exitosamente.")
 
+def consultar_productos():
+    print("\n--- Lista de Productos ---")
+    if not inventario:
+        print("No existen productos registrados.")
+        return
+    for prod in inventario:
+        print(f"Código: {prod['codigo']} | Nombre: {prod['nombre']} | Cantidad: {prod['cantidad']} | Precio: ${prod['precio']}")
+
 def mostrar_menu():
     print("\n==============================")
     print("       SISTEMA AGROCBA        ")
