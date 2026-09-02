@@ -62,6 +62,15 @@ def consultar_productos():
     for prod in inventario:
         print(f"Código: {prod['codigo']} | Nombre: {prod['nombre']} | Cantidad: {prod['cantidad']} | Precio: ${prod['precio']}")
 
+def buscar_producto():
+    print("\n--- Buscar Producto ---")
+    codigo = input("Ingrese el código a buscar: ").strip()
+    prod = obtener_producto_por_codigo(codigo)
+    if prod:
+        print(f"Encontrado: {prod['nombre']} - Categoría: {prod['categoria']} - Stock: {prod['cantidad']} - Precio: ${prod['precio']}")
+    else:
+        print("Producto no encontrado.")
+
 def mostrar_menu():
     print("\n==============================")
     print("       SISTEMA AGROCBA        ")
