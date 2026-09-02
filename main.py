@@ -60,7 +60,7 @@ def consultar_productos():
         print("No existen productos registrados.")
         return
     for prod in inventario:
-        print(f"Código: {prod['codigo']} | Nombre: {prod['nombre']} | Cantidad: {prod['cantidad']} | Precio: ${prod['precio']}")
+        print(f"Código: {prod['codigo']} | Nombre: {prod['nombre']} | Categoría: {prod['categoria']} | Cantidad: {prod['cantidad']} | Precio: ${prod['precio']}")
 
 def buscar_producto():
     print("\n--- Buscar Producto ---")
@@ -76,8 +76,15 @@ def actualizar_producto():
     codigo = input("Código del producto: ").strip()
     prod = obtener_producto_por_codigo(codigo)
     if prod:
-        prod['nombre'] = input("Nuevo nombre: ") or prod['nombre']
-        print("Producto actualizado.")
+        nuevo_nombre = input(f"Nuevo nombre (actual: {prod['nombre']}): ").strip()
+        if nuevo_nombre:
+            prod['nombre'] = nuevo_nombre
+
+        nueva_cat = input(f"Nueva categoría (actual: {prod['categoria']}): ").strip()
+        if nueva_cat:
+            prod['categoria'] = nueva_cat
+
+        print("Producto actualizado exitosamente.")
     else:
         print("Producto no encontrado.")
 
@@ -86,16 +93,15 @@ def eliminar_producto():
     codigo = input("Código del producto a eliminar: ").strip()
     prod = obtener_producto_por_codigo(codigo)
     if prod:
-        confirmar = input("¿Eliminar? (s/n): ").lower()
+        confirmar = input(f"¿Desea eliminar {prod['nombre']}? (s/n): ").lower()
         if confirmar == 's':
             inventario.remove(prod)
-            print("Producto eliminado.")
+            print("Producto eliminado exitosamente.")
     else:
         print("Producto no encontrado.")
 
 def calcular_inventario():
     print("\n--- Valor Total del Inventario ---")
-    # Error intencional: usa resta (-) en vez de multiplicación (*)
     total = sum(p['cantidad'] * p['precio'] for p in inventario)
     print(f"El valor total del inventario es: ${total:.2f}")
 
@@ -118,9 +124,21 @@ def main():
         opcion = input("Seleccione una opción: ").strip()
         if opcion == "1":
             registrar_producto()
+        elif opcion == "2":
+            consultar_productos()
+        elif opcion == "3":
+            buscar_producto()
+        elif opcion == "4":
+            actualizar_producto()
+        elif opcion == "5":
+            eliminar_producto()
+        elif opcion == "6":
+            calcular_inventario()
         elif opcion == "7":
-            print("Saliendo...")
+            print("Saliendo del programa...")
             break
+        else:
+            print("Opción inválida. Intente de nuevo.")
 
 if __name__ == "__main__":
     main()
