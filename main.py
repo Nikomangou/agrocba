@@ -93,6 +93,12 @@ def eliminar_producto():
     else:
         print("Producto no encontrado.")
 
+def calcular_inventario():
+    print("\n--- Valor Total del Inventario ---")
+    # Error intencional: usa resta (-) en vez de multiplicación (*)
+    total = sum(p['cantidad'] - p['precio'] for p in inventario)
+    print(f"El valor total del inventario es: ${total:.2f}")
+
 def mostrar_menu():
     print("\n==============================")
     print("       SISTEMA AGROCBA        ")
