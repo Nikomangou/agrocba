@@ -71,6 +71,28 @@ def buscar_producto():
     else:
         print("Producto no encontrado.")
 
+def actualizar_producto():
+    print("\n--- Actualizar Producto ---")
+    codigo = input("Código del producto: ").strip()
+    prod = obtener_producto_por_codigo(codigo)
+    if prod:
+        prod['nombre'] = input("Nuevo nombre: ") or prod['nombre']
+        print("Producto actualizado.")
+    else:
+        print("Producto no encontrado.")
+
+def eliminar_producto():
+    print("\n--- Eliminar Producto ---")
+    codigo = input("Código del producto a eliminar: ").strip()
+    prod = obtener_producto_por_codigo(codigo)
+    if prod:
+        confirmar = input("¿Eliminar? (s/n): ").lower()
+        if confirmar == 's':
+            inventario.remove(prod)
+            print("Producto eliminado.")
+    else:
+        print("Producto no encontrado.")
+
 def mostrar_menu():
     print("\n==============================")
     print("       SISTEMA AGROCBA        ")
