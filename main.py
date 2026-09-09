@@ -1,3 +1,5 @@
+import json
+
 inventario = []
 
 def obtener_producto_por_codigo(codigo):
@@ -84,6 +86,28 @@ def actualizar_producto():
         if nueva_cat:
             prod['categoria'] = nueva_cat
 
+        try:
+            cant_input = input(f"Nueva cantidad (actual: {prod['cantidad']}): ").strip()
+            if cant_input:
+                cant_val = int(cant_input)
+                if cant_val >= 0:
+                    prod['cantidad'] = cant_val
+                else:
+                    print("Cantidad no válida. Se conserva la anterior.")
+        except ValueError:
+            print("Entrada inválida. Se conserva la cantidad anterior.")
+
+        try:
+            precio_input = input(f"Nuevo precio (actual: ${prod['precio']}): ").strip()
+            if precio_input:
+                precio_val = float(precio_input)
+                if precio_val > 0:
+                    prod['precio'] = precio_val
+                else:
+                    print("Precio no válido. Se conserva el anterior.")
+        except ValueError:
+            print("Entrada inválida. Se conserva el precio anterior.")
+
         print("Producto actualizado exitosamente.")
     else:
         print("Producto no encontrado.")
@@ -105,6 +129,72 @@ def calcular_inventario():
     total = sum(p['cantidad'] * p['precio'] for p in inventario)
     print(f"El valor total del inventario es: ${total:.2f}")
 
+# --- RETOS ADICIONALES ---
+
+def reportes_adicionales():
+    print("\n--- REPORTES Y RETOS ADICIONALES ---")
+    if not inventario:
+        print("No hay productos registrados.")
+        return
+
+    total_unidades = sum(p['cantidad'] for p in inventario)
+    print(f"* Cantidad total de unidades en stock: {total_unidades}")
+
+    prod_mayor_precio = max(inventario, key=lambda x: x['precio'])
+    print(f"* Producto de mayor precio: {prod_mayor_precio['nombre']} (${prod_mayor_precio['precio']:.2f})")
+
+    prod_mayor_stock = max(inventario, key=lambda x: x['cantidad'])
+    print(f"* Producto con mayor stock: {prod_mayor_stock['nombre']} ({prod_mayor_stock['cantidad']} unidades)")
+
+    bajo_stock = [p for p in inventario if p['cantidad'] <= 5]
+    if bajo_stock:
+        print("* Alerta de bajo inventario (<= 5 unidades):")
+        for p in bajo_stock:
+            print(f"  - {p['nombre']} (Stock actual: {p['cantidad']})")
+    else:
+        print("* Alerta de bajo inventario: Todos los productos tienen buen stock (> 5 unidades).")
+
+def consultar_por_categoria():
+    print("\n--- Consultar por Categoría ---")
+    if not inventario:
+        print("No existen productos registrados.")
+        return
+    cat_buscar = input("Ingrese la categoría a filtrar: ").strip().lower()
+    coincidencias = [p for p in inventario if p['categoria'].lower() == cat_buscar]
+    
+    if coincidencias:
+        print(f"\nProductos en la categoría '{cat_buscar}':")
+        for prod in coincidencias:
+            print(f"Código: {prod['codigo']} | Nombre: {prod['nombre']} | Cantidad: {prod['cantidad']} | Precio: ${prod['precio']}")
+    else:
+        print(f"No se encontraron productos en la categoría '{cat_buscar}'.")
+
+def ordenar_alfabeticamente():
+    print("\n--- Productos Ordenados Alfabéticamente ---")
+    if not inventario:
+        print("No existen productos registrados.")
+        return
+    inventario_ordenado = sorted(inventario, key=lambda x: x['nombre'].lower())
+    for prod in inventario_ordenado:
+        print(f"Nombre: {prod['nombre']} | Código: {prod['codigo']} | Categoría: {prod['categoria']} | Cantidad: {prod['cantidad']} | Precio: ${prod['precio']}")
+
+def guardar_datos_json():
+    try:
+        with open("inventario.json", "w", encoding="utf-8") as archivo:
+            json.dump(inventario, archivo, indent=4, ensure_ascii=False)
+        print("Datos guardados exitosamente en 'inventario.json'.")
+    except Exception as e:
+        print(f"Error al guardar datos: {e}")
+
+def cargar_datos_json():
+    global inventario
+    try:
+        with open("inventario.json", "r", encoding="utf-8") as archivo:
+            inventario = json.load(archivo)
+        print("Datos cargados correctamente desde 'inventario.json'.")
+    except FileNotFoundError:
+        inventario = []
+
 def mostrar_menu():
     print("\n==============================")
     print("       SISTEMA AGROCBA        ")
@@ -115,10 +205,15 @@ def mostrar_menu():
     print("4. Actualizar producto")
     print("5. Eliminar producto")
     print("6. Mostrar valor total del inventario")
-    print("7. Salir")
+    print("7. Ver Reportes (Stock, Precios, Bajo inventario)")
+    print("8. Consultar por categoría")
+    print("9. Ordenar productos alfabéticamente")
+    print("10. Guardar datos en JSON")
+    print("11. Salir")
     print("==============================")
 
 def main():
+    cargar_datos_json()
     while True:
         mostrar_menu()
         opcion = input("Seleccione una opción: ").strip()
@@ -135,6 +230,15 @@ def main():
         elif opcion == "6":
             calcular_inventario()
         elif opcion == "7":
+            reportes_adicionales()
+        elif opcion == "8":
+            consultar_por_categoria()
+        elif opcion == "9":
+            ordenar_alfabeticamente()
+        elif opcion == "10":
+            guardar_datos_json()
+        elif opcion == "11":
+            guardar_datos_json()
             print("Saliendo del programa...")
             break
         else:

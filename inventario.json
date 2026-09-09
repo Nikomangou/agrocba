@@ -1,0 +1,23 @@
+[
+    {
+        "codigo": "P1",
+        "nombre": "fertilizante",
+        "categoria": "insumos agricolas",
+        "cantidad": 35,
+        "precio": 20000.0
+    },
+    {
+        "codigo": "P2",
+        "nombre": "insecticida",
+        "categoria": "pesticidas y defensas de cultivos",
+        "cantidad": 3,
+        "precio": 25000.0
+    },
+    {
+        "codigo": "P3",
+        "nombre": "semillas de cilantro",
+        "categoria": "semillas y material vegetal",
+        "cantidad": 15,
+        "precio": 5000.0
+    }
+]
