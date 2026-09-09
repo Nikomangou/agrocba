@@ -7,17 +7,24 @@
         "precio": 20000.0
     },
     {
-        "codigo": "P2",
-        "nombre": "insecticida",
-        "categoria": "pesticidas y defensas de cultivos",
-        "cantidad": 3,
-        "precio": 25000.0
-    },
-    {
         "codigo": "P3",
         "nombre": "semillas de cilantro",
         "categoria": "semillas y material vegetal",
         "cantidad": 15,
         "precio": 5000.0
+    },
+    {
+        "codigo": "P4",
+        "nombre": "semillas de girasol 50gr",
+        "categoria": "semillas y material vegetal",
+        "cantidad": 30,
+        "precio": 6000.0
+    },
+    {
+        "codigo": "P5",
+        "nombre": "pesticida",
+        "categoria": "pesticidas y cuidado del cultivo",
+        "cantidad": 2,
+        "precio": 15000.0
     }
 ]
